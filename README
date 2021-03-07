@@ -1,0 +1,9 @@
+
+Tiny Emacs manager -- the utilite to handle emacs daemon and its clients.
+
+Running 'e' at first time will run the daemon and immidately will
+run emacsclient and connect to the server.
+
+Author: Sergey Sushilin
+
+Part of defines.h's code taken from GNULIB and StackOverflow.
