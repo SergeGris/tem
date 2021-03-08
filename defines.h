@@ -57,10 +57,12 @@
 # define __alloc_size(params)
 #endif
 
-#if __STDC_VERSION__ >= 199901L
-# define __inline inline
-#else
-# define __inline
+#if __STDC_VERSION__ < 199901L
+# if __GNUC__ >= 2 || defined(__clang__) || defined(__TINYC__) || defined(__PCC__)
+#  define inline __inline__
+# else
+#  define inline /* Nothing.  */
+# endif
 #endif
 
 /* Warn about unused results of certain
@@ -73,7 +75,7 @@
 
 /* Forces a function to be always inlined.  */
 #if __GCC_PREREQ (3, 2) && __STDC_VERSION__ >= 199901L
-# define __force_inline __inline __attribute__ ((__always_inline__))
+# define __force_inline inline __attribute__ ((__always_inline__))
 #elif defined (_MSC_VER)
 # defined __force_inline __forceinline
 #else
@@ -88,12 +90,18 @@
 # define __nonnull(params)
 #endif
 
+/*
+ * GCC 2.95 provides `__restrict' as an extension to C90 to support the
+ * C99-specific `restrict' type qualifier.  We happen to use `__restrict' as
+ * a way to define the `restrict' type qualifier without disturbing older
+ * software that is unaware of C99 keywords.
+ */
+#if __STDC_VERSION__ < 199901L
+# if __GCC_PREREQ (2, 95)
 /* __restrict is known in EGCS 1.2 and above.  */
-#if !__GCC_PREREQ (2, 92)
-# if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
-#  define __restrict restrict
+#  define restrict __restrict
 # else
-#  define __restrict
+#  define restrict /* Nothing.  */
 # endif
 #endif
 
@@ -136,7 +144,7 @@
 
 #if !__GCC_PREREQ (5, 0)
 /* https://stackoverflow.com/a/1815371 */
-static __wur __force_inline __nonnull ((3)) bool
+static inline __wur __force_inline __nonnull ((3)) bool
 __builtin_mul_overflow (size_t a, size_t b, size_t *c)
 {
 # define SIZE_BIT (sizeof (size_t) * CHAR_BIT / 2)
