@@ -189,7 +189,7 @@ __builtin_mul_overflow (size_t a, size_t b, size_t *c)
    Subtract 1 for the sign bit if T is signed, and then add 1 more for
    a minus sign if needed.  */
 #define INT_STRLEN_BOUND(t) \
-	(INT_BITS_STRLEN_BOUND (sizeof (t) * CHAR_BIT) + TYPE_SIGNED (t))
+  (INT_BITS_STRLEN_BOUND (sizeof (t) * CHAR_BIT) + TYPE_SIGNED (t))
 
 #define streq(s1, s2)     (strcmp ((s1), (s2)) == 0)
 #define strneq(s1, s2, n) (strncmp ((s1), (s2), n) == 0)
@@ -199,8 +199,8 @@ __builtin_mul_overflow (size_t a, size_t b, size_t *c)
 #define glue(s1, s2) __glue (s1, s2)
 
 #define pragma(x) \
-	_Pragma (stringify (x)) \
-	extern void __force_compiler_to_require_semicolon_after_pragma (void)
+  _Pragma (stringify (x)) \
+  extern void __force_compiler_to_require_semicolon_after_pragma (void)
 #if defined(__GNUC__) && !defined(__PCC__)
 # define poison(x) pragma (GCC poison x)
 #elif defined(__clang__)

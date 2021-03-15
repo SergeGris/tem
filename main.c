@@ -482,7 +482,7 @@ main (int argc, char **argv)
 
   if (unlikely (!socket_exists (socket_name)))
     {
-      start_daemon (true, argc, argv);
+      start_daemon (true, 0, NULL);
 
       if (unlikely (!socket_exists (socket_name)))
         die (EXIT_FAILURE, "Can not find socket.\n");
